@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load leaflet_tags %}
+
+{% block content %}
+
+
+{% leaflet_js %}
+{% leaflet_css %}
+    
+<style type="text/css">
+    #gis {width: 100%; height:80% }
+</style>
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.min.js' %}" ></script>
+<h3>Map of Toril, Davao City</h3>
+
+
+
+<script type="text/javascript">
+
+    function map_init(map, options) {
+        var points = '{% url "junkshop-points" %}';
+
+        function onEachFeature(feature, layer) {
+            layer.on('click', function(e) {
+                var ourPopup = 'id:' + e.target.feature.properties.user;
+                layer.bindPopup(ourPopup).openPopup(e.latlang);
+            });
+        }
+
+        var ourLayer = L.geoJson(null, {
+            onEachFeature: onEachFeature
+        });
+
+        $.getJSON(points, function(data) {
+            L.geoJson(data).addTo(map)
+        });
+    }
+</script>
+
+{% leaflet_map "gis" callback="window.map_init" %}
+
+{% endblock%}

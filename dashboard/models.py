@@ -12,6 +12,13 @@ class Junkshop(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now = True, null=True)
 
+    def to_dict_json(self):
+        return {
+            'shop_name':self.shop_name,
+            'owner_name':self.owner_name,
+            'address':self.address,
+        }
+
 
 class Household(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -22,15 +29,15 @@ class Household(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-      user = User.objects.get(id=self.user_id)
-      return "id=" + str(self.pk) + " username=" + user.username + " email=" + user.email
+        user = User.objects.get(id=self.user_id)
+        return "id=" + str(self.pk) + " username=" + user.username + " email=" + user.email
 
 
 class Category(models.Model):
     name = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-		    return "ID:" + str(self.pk) + " " + self.name
+	    return "ID:" + str(self.pk) + " " + self.name
 
 
 class Item(models.Model):
@@ -42,7 +49,7 @@ class Item(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-		    return "ID:" + str(self.pk) + " " + self.name
+	    return "ID:" + str(self.pk) + " " + self.name
 
 
 class Auction(models.Model):
@@ -55,7 +62,7 @@ class Auction(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-		    return "ID:" + str(self.pk) + " SELLER_ID:" + str(self.seller_id)
+	    return "ID:" + str(self.pk) + " SELLER_ID:" + str(self.seller_id)
 
 
 class Bid(models.Model):
@@ -64,5 +71,5 @@ class Bid(models.Model):
     bid_time = models.DateTimeField()
 
     def __str__(self):
-		    return "USER_ID:" + str(self.bidder_id) + " AUCTION_ID:" + \
-		    str(self.auction_id) + " " + str(self.bid_time) 
+        return "USER_ID:" + str(self.bidder_id) + " AUCTION_ID:" + \
+        str(self.auction_id) + " " + str(self.bid_time) 

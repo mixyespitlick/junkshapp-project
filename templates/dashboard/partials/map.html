@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load leaflet_tags %}
+
+{% block content %}
+
+{% leaflet_js %}
+{% leaflet_css %}
+    
+
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.js' %}" ></script>
+<script type="text/javascript" src="{% static 'dist/leaflet.ajax.min.js' %}" ></script>
+
+<script type="text/javascript">
+
+    function map_init(map, options) {
+        var points = new L.GeoJSON.AJAX("{% url 'junkshop-points' %}", {
+            onEachFeature: function(feature, layer) {
+                layer.bindPopup(feature.properties.shop_name.toString() + "<br>" + feature.properties.address.toString());
+            }
+        });
+
+        points.addTo(map)
+        map.scrollWheelZoom.disable();
+
+    }
+
+    
+</script>
+
+{% leaflet_map "gis" callback="window.map_init" %}
+
+{% endblock%}

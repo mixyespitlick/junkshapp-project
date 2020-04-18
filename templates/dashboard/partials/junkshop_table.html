@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<table id="myTable" class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Owner Name</th>
+            <th>Address</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for junkshop in junkshops %}
+        <tr>
+            <td>{{ junkshop.shop_name}}</td>
+            <td>{{ junkshop.owner_name}}</td>
+            <td>{{ junkshop.address}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<script>
+$(document).ready( function () {
+    $('#myTable').DataTable();
+} );
+</script>
+{% endblock %}
